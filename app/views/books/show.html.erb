@@ -3,10 +3,10 @@
 	<div class="col-xs-3">
 
 		<h2>User info</h2>
-		<%= render 'users/profile', user: @book.user %>
+		<%= render 'users/profile' %>
 
 		<h2>New book</h2>
-		<%= render 'books/newform', book: Book.new %>
+		<%= render 'books/newform' %>
 
 	</div>
 
@@ -16,18 +16,17 @@
 		<table class="table">
 				<tr>
 					<td>
-						<%= link_to (@book.user) do %>
-						<%= attachment_image_tag(@book.user, :profile_image, :fill, 100, 100, fallback: "no-image-mini.jpg") %><br>
-						<%= @book.user.name %>
+						<%= link_to (@bookn.user) do %>
+						<%= attachment_image_tag(@bookn.user, :profile_image, :fill, 100, 100, fallback: "no-image-mini.jpg") %><br>
+						<%= @bookn.user.name %>
 						<% end %>
 					</td>
-					<td><%= link_to @book.title, @book %></td>
-					<td><%= @book.body %></td>
-					<!--もしブックユーザーがカレントユーザーと一致しているならeditとdestroyのリンクを表示する。-->
-					<% if @book.user == current_user %>
-					<td><%= link_to "Edit",edit_book_path(@book), class: "btn-sm btn-success edit_book_#{@book.id}" %></td>
-					<td><%= link_to "Destroy",@book, method: :delete, data: {confirm: "本当に削除してもよろしいですか？"}, class: "btn-sm btn-danger destroy_book_#{@book.id}" %></td>
-					<% end %>
+					<td><%= link_to @bookn.title, @bookn %></td>
+					<td><%= @bookn.body %></td>
+				<% if @bookn.user == current_user %>
+					<td><%= link_to "Edit",edit_book_path(@bookn), class: "btn-sm btn-success edit_book_#{@bookn.id}" %></td>
+					<td><%= link_to "Destroy",@bookn, method: :delete, data: {confirm: "本当に削除してもよろしいですか？"}, class: "btn-sm btn-danger destroy_book_#{@bookn.id}" %></td>
+				<% end %>
 				</tr>
 			</table>
 

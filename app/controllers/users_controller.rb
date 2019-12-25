@@ -1,9 +1,6 @@
 class UsersController < ApplicationController
-	before_action :authenticate_user!
-	#ビフォーアクションはこのコントローラーが実行される前という意味
-	#authenticate userはdeviseで用意されているメソッドで、ログイン認証がされていないとrootパスにリダイレクトされる。
-	#アプリケーションコントローラーに記述すれば全適用されるが、今回はhomeコントローラーは適用したくないので、booksとusersに適用
-	before_action :baria_user, only: [:edit, :update]
+	 before_action :authenticate_user!
+  before_action :baria_user, only: [:edit]
 
   def show
   	@user = User.find(params[:id])
@@ -14,8 +11,9 @@ class UsersController < ApplicationController
   def index
   	@users = User.all #一覧表示するためにUserモデルのデータを全て変数に入れて取り出す。
   	@book = Book.new #new bookの新規投稿で必要（保存処理はbookコントローラー側で実施）
-  end
+    @user = User.find(current_user.id)
 
+  end
   def edit
   	@user = User.find(params[:id])
   end
@@ -25,11 +23,16 @@ class UsersController < ApplicationController
   	if @user.update(user_params)
   		redirect_to user_path(@user), notice: "successfully updated user!"
   	else
-  		render "edit"
+  		render 'edit',notice:"error"
   	end
   end
 
   private
+
+  def book_params
+    params.require(:book).permit(:title,:body)
+  end
+
   def user_params
   	params.require(:user).permit(:name, :introduction, :profile_image)
   end
